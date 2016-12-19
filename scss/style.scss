@@ -1,0 +1,159 @@
+@import "compass";
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/css3/filter";
+@import "compass/utilities";
+@import "compass/layout/stretching";
+@import url('https://fonts.googleapis.com/css?family=Lato');
+$black:#000;
+$white:#fff;
+
+$c1: fade-out($black,0.05);
+$c2: fade-out($black , 0.1);
+$c3: fade-out($black,0.07);
+$c4: #ac333a;
+$c5: fade-out($black, 0.03);
+$c6: #7864b9;
+$c7: $black;
+
+
+* {
+    box-sizing:border-box;
+}
+body , html {
+    height: 100%;
+}
+body {
+    background-image:
+    linear-gradient(45deg, $c1, transparent),
+    linear-gradient(-15deg, $c2, $c3, transparent),
+    radial-gradient(30% 0%, circle, fade-out($c4 , 0.5), transparent),
+    // radial-gradient(80% 50%, circle, $c6, transparent),
+    // radial-gradient(20% 80%, 40em 40em, $c7, transparent),
+    linear-gradient(106deg, $c7, $c5, $c3, transparent);
+    overflow: hidden;
+    @include display-flex(flex);
+}
+.content-wrapper {
+    margin:auto;
+}
+.prism-shape {
+    width:150px;
+    height:150px;
+    border-bottom:3px solid $white;
+    position:relative;
+    margin:2rem auto 5rem;
+    &:before , &:after {
+        content: '';
+        position: absolute;
+        width: 150px;
+        height: 3px;
+        bottom: 0;
+        background:$white;
+        z-index:3;
+    }
+    &:before {
+     @include transform (rotate(60deg) translateX(-47%) );
+     right: -72px;
+ }
+ &:after {
+   @include transform (rotate(-60deg) translateX(47%));
+   left: -72px;
+}
+
+.white-streak{
+    height:3px;
+    width: 300px;
+    position: absolute;
+    left:-278px;
+    background:$white;
+    @include transform (rotate(-13deg) translateY(calc(100% + 110px)));
+    border-radius:10px 0 0 10px;
+}
+.prism-wrapper {
+    position: relative;
+    height: 100px;
+    width: 400px;
+    @include perspective(150px);
+    margin: 80px auto auto -120px;
+    @include transform(rotate(36deg));
+
+}
+.prism-clip-wrapper {
+    width: 700px;
+    height: 520px;
+    position: absolute;
+    @include display-flex(flex);
+    overflow: hidden;
+    @include transform(rotate(-31deg));
+    left: 153px;
+    top: -202px;
+    z-index: 1;
+}
+}
+@keyframes glow {
+    to { 
+        width:100% ;
+        @include flex-grow(1);
+    }
+}
+.prism-items {
+    $colors-list: violet indigo blue green yellow orange red;
+    $width-list:  99% 90% 90% 93% 96% 87% 100% ;
+    $delay:0.1s 0.15s 0.2s 0.05s 0.1s 0.11s 0s;
+    $grow-list: 0.9 0.8 1 0.75 0.94 0.87 0.9;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    @include transform(rotateY(-20deg));
+    @include display-flex(flex);
+    @include flex-direction(column);
+    .prism-colors {
+        @include flex-grow(1);
+        @include filter(blur(20px));
+        @include animation(glow 1.7s ease-in-out infinite alternate);
+        //random width
+        @each $current-width in $width-list {
+            $i: index($width-list, $current-width);
+            &:nth-child(#{$i}) { 
+                width: $current-width;
+            }
+        }
+        //random grow 
+        @each $current-grow in $grow-list {
+            $i: index($grow-list, $current-grow);
+            &:nth-child(#{$i}) { 
+                width: $current-grow;
+            }
+        }
+        //random colors
+        @each $current-color in $colors-list {
+            $i: index($colors-list, $current-color);
+            &:nth-child(#{$i}) { 
+                background: $current-color;
+            }
+        }
+        //animation delay 
+        @for $i from 1 through 7 {
+            &:nth-child(#{$i}) { 
+                animation-delay: $i * 0.25s;
+            }
+        }
+    }
+}
+.title {
+
+    ul {
+        @include display-flex(flex);
+        li {
+            animation: pound .7s ease-in-out infinite alternate;
+            animation-delay:0.05s;
+            transform-origin: center;
+            font-family:Lato;
+            color:fade-out($white,0.5);
+            font-size: 1.5rem;
+            text-shadow:0 1px 2px $black;
+            letter-spacing: 0.5px;
+        }
+    }
+}
